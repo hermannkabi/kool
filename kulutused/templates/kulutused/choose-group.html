@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vali grupp | Kulutused</title>
+    <link rel="stylesheet" href="{% static 'kulutused/index.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="{% static 'kulutused/choose-group.css' %}">
+
+</head>
+<body>
+
+    <div class="title-div-login">
+        <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
+        <p class="subgreeting">Jätkamiseks vali grupp!</p>
+    </div>
+    
+
+    <div class="choose-group-container">
+        <div style="background-color: #71ccbe;"  class="group-div" onclick="window.location.href = '{% url 'kulutused:create-group' %}'">
+            <div class="icon-class">
+                <i class="material-icons" style="font-size: 50px; text-align: center;">add</i>
+                <h1>Loo uus</h1>
+            </div>
+        </div>
+        {% for group in groups %}
+        <div class="group-div" onclick="window.location.href = '{% url 'kulutused:dashboard' group_id=group.id %}'">
+            <h1>{{group.group_name}}</h1>
+            <p>{{group.desc}}</p>
+        </div>    
+        {% endfor %}
+
+    
+    </div>
+    
+</body>
+</html>

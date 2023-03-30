@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaga grupi linki | Avaleht</title>
+    <link rel="stylesheet" href="{% static 'kulutused/index.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+
+<div class="title-div-login">
+    <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
+    <p class="subgreeting">Kutsu sõpru?</p>
+</div>
+
+<div style="margin-left: 40px;">
+    <p>NB! Lingiga saavad liituda kõik sisse loginud kasutajad</p>
+
+    <code>{{ url }}</code>
+</div>
+
+</html>

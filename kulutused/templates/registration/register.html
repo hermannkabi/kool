@@ -1,0 +1,41 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loo konto</title>
+
+    <link rel="stylesheet" href="{% static 'kulutused/register.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <div class="login-div">
+                <h1>Loo konto</h1>
+                <form action="{% url 'kulutused:signup' %}" method="post">
+                    {% csrf_token %}
+                    <input class="login-input" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username"  type="text" name="username" id="" placeholder="Kasutajanimi">
+                    <div style="height: 1px"></div>
+                    <input class="login-input" type="password" name="password1" id="" placeholder="Parool" autocomplete="new-password" required id="id_password1">
+                    <input class="login-input" type="password" name="password2" id="" placeholder="Korda parooli" autocomplete="new-password" required id="id_passwor2">
+
+                    {% if form.errors %}
+                    <p style="color: red; text-align:center; margin: 0 20px;">Veendu, et täitsid kõik väljad õigesti</p>
+                    {% endif %}
+                    <button type="submit" value="Register">Loo konto</button>
+                    <br>
+                </form>
+            </div>
+            <div class="signup-div">
+                <br>
+                <p>Konto olemas? <a href="/accounts/login">Logi sisse</a></p>
+                <br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

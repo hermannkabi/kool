@@ -1,0 +1,49 @@
+body{
+    overflow: scroll !important;
+}
+
+.group-div{
+    border: 2px solid #71ccbe;
+    border-radius: 8px;
+    margin: 16px 8px;
+    width: 40%;
+    cursor: pointer;
+    aspect-ratio: 1.61;
+    transition: background-color 100ms linear;
+}
+
+.group-div:hover{
+    background-color: #71ccbe6b;
+}
+
+.choose-group-container{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-items: center;
+}
+
+.group-div > h1 {
+    margin: 16px;
+    margin-bottom: 4px;
+}
+
+.group-div > p {
+    margin: 0px 16px;
+    color: grey;
+}
+
+.group-div{
+    position: relative;
+}
+
+.group-div > .icon-class{
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.group-div > .icon-class > h1{
+    margin-bottom: 0;
+}

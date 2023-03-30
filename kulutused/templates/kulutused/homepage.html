@@ -1,0 +1,52 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kulutused | Avaleht</title>
+    <link rel="stylesheet" href="{% static 'kulutused/index.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+<body>
+    <div class="container">
+        <div class="title-div">
+            <h1 class="title">Jaga kulusid
+                <span class="title" id="changing-text">sõpradega</span>
+            </h1>
+            <div class="btns">
+                <button onclick="window.location.href = 'register'" class="register">Loo konto</button>
+                <button onclick="window.location.href = 'accounts/login'" class="login">Logi sisse</button>
+            </div>
+    
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
+
+    
+
+    <script>
+        spans = ["sõpradega", "reisides", "klassikaaslastega", "igaühega"];
+        colors = ["#539165", "#567189", "#E90064", "#9F73AB"]
+        i = 0
+
+        setInterval(function (){
+            $("#changing-text").css("opacity", "0.0");
+
+            setTimeout(() => {
+                $("#changing-text").text(spans[i%spans.length]);
+                $("#changing-text").css("color", colors[i%spans.length]);
+
+                $("#changing-text").css("opacity", "1.0");
+            }, 500);
+
+            i ++;
+        }, 5000);
+    </script>
+</body>
+</html>

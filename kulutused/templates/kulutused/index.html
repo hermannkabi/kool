@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kulutused | Avaleht</title>
+    <link rel="stylesheet" href="{% static 'kulutused/index.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+
+<div class="title-div-login">
+    <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
+    <p class="subgreeting"><span style="font-weight: bold;">{{group_name}}</span>  | <a href="{% url 'kulutused:share-group' group_id=group_id%}" style="color: lightblue; text-decoration: none;">jaga linki</a>  ・  <a href="{% url 'kulutused:choose-group'%}" style="color: lightblue; text-decoration: none;">muuda gruppi</a></p>
+</div>
+
+
+
+<div class="table-container">
+    <div class="transaction-div">
+        <p class="column-header">Uus makse</p>
+        <p class="column-subheader">Pane kirja oma võlg</p>
+
+        <form action="{% url 'kulutused:send-transaction' group_id=group_id %}" method="post">            
+            {% csrf_token %}
+            <div class="search-user">
+                <select  style="width: 204px; background-color: #71ccbe; color: white;" name="to_name" id="" required>
+                    <option value="" disabled selected>Vali saaja</option>
+                    {% for u in all_users%}
+                        {% if u != user %}
+                            <option  value="{{u.username|title }}">{{u.username|title}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+        
+            <div class="amount-select" >
+                <input value="{{ amount }}" name="amount" min="0.01" step=".01" style="display: block; width: 200px; height: 48px" type="number" placeholder="Summa" required>
+                <br>
+                <textarea name="notes" placeholder="Märkused makse kohta" style="resize: vertical; height: 100px; width: 200px; display: block;"></textarea>
+                
+                {% if messages %}
+                    {% for message in messages %}
+                    <p style="color:red">{{ message }}</p>
+                    {% endfor %}
+                {%endif%}
+                
+                <button type="submit">Maksa</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="recent-transactions-div" style="justify-self:end">
+        <p class="column-header">Hiljutised tehingud</p>
+        {% if recent|length > 0 %}
+        <p style="color: lightblue; text-decoration: underline; cursor: pointer;" onclick="window.location.href = 'summary'" class="column-subheader">Vaata kokkuvõtet</p>
+        {% endif %}
+        
+        {% if recent|length > 0%}
+        <table style="border-collapse: collapse;">
+            <thead>
+                <th>Saatja</th>
+                <th>Saaja</th>
+                <th>Summa</th>
+                <th>Märkused</th>
+            </thead>
+            {% for transaction in recent %}
+            <tr>
+                <td>{{transaction.from_user.username|title}}</td>
+                <td>{{transaction.to_user.username|title}}</td>
+                <td>{{transaction.amount}}</td>
+                {% if transaction.notes|length > 0 %}
+                <td>{{ transaction.notes }}</td>
+                {% else %}
+                <td>Märkuseid pole</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>Tehinguid ei leitud!</p>
+        {% endif %}
+    </div>
+</div>
+</html>

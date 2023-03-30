@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logi sisse</title>
+
+    <link rel="stylesheet" href="{% static 'kulutused/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <div class="login-div">
+                <h1>Logi sisse</h1>
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    <input class="login-input" type="text" name="username" id="" placeholder="Kasutajanimi" autofocus>
+                    <input class="login-input" type="password" name="password" id="" placeholder="Parool">
+                    {% if form.errors %}
+                    <p style="color: red; margin: 0 34px;">Vale kasutajanimi või parool!</p>
+                    {% endif %}
+                    <button type="submit">Logi sisse</button>
+                    <br>
+                </form>
+            </div>
+            <div class="signup-div">
+                <br>
+                <p>Oled siin uus? <a href="/register">Loo konto</a></p>
+                <br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

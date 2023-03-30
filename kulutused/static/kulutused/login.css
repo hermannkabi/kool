@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&family=Unbounded:wght@500&display=swap');
+
+body{
+    background-color: #0a2647;
+    font-family: "Reem Kufi";
+    color: white;
+    overflow-y: hidden;
+}
+
+h1{
+    font-family: "Unbounded";
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+}
+
+.container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-div{
+    margin: auto;
+    background-color: #1441729c;
+    border-radius: 12px;
+    width: 250px;
+}
+
+.login-input{
+    display: block;
+    margin: 20px auto;
+    height: 32px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    font-family: "Reem Kufi";
+}
+
+button{
+    cursor: pointer;
+    margin: 16px auto;
+    display: block;
+    margin-bottom: 16px;
+    height: 32px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: green;
+    color: white;
+    font-family: "Reem Kufi";
+    padding-left: 16px;
+    padding-right: 16px;
+
+}
+
+.signup-div{
+    margin: 32px auto;
+    border: 2px solid #1441729c;
+    border-radius: 12px;
+    width: 250px;
+    text-align: center;
+    
+}
+
+a:visited{
+    color:lightblue;
+}
