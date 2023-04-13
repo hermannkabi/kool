@@ -11,16 +11,53 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
+<body>
+    <div class="title-div-login"  style="text-align: end; display: block;">
+        <p class="greeting">Hei, <a href="{% url 'kulutused:summary' group_id=group_id%}" style="color: #71ccbe; border-bottom: 3px dotted; cursor: pointer; text-decoration: none;">{{ user.username|title }}</a> &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons icon-button" style="color: red;">logout</i></a><a href="{% url 'kulutused:share-group' group_id=group_id %}"><i class="material-icons icon-button">share</i></a></p>
+        <br>
+        <form id="change-group-form" action="{% url 'kulutused:change_group' %}" method="post">
+            {% csrf_token %}
+            
+            <select name="group" id="group-change" style="height: 40px; padding-inline: 16px;">
+                {% for group in groups %}
+                    <option value="{{ group.id }}" {% if group_id == group.id %} selected {% endif %}>{{group.group_name}}</option>
+                {% endfor %}
+                <option value="new-group">➕ Loo uus grupp</option>
 
-<div class="title-div-login">
-    <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
-    <p class="subgreeting">Kutsu sõpru?</p>
-</div>
+            </select>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById("group-change").addEventListener("change", ()=>{
+            document.getElementById("change-group-form").submit();
+        });
+    </script>
+    
+    
+    <div class="transaction-div glass-background" style="padding: 16px; width: max-content; margin: auto;">
+        <p class="column-header">Jaga linki</p>
+        <br><br>
+        <p>NB! Lingiga saavad liituda kõik sisse loginud kasutajad</p>
+        <br>
+        <input readonly id="link-input" type="text" value="{{ url }}" style="text-align: center;"><i onclick="copyLink()" style="cursor: pointer; font-size: 30px;" class="material-icons icon-button">content_copy</i>
+        <br><br>
+    
+    </div>
 
-<div style="margin-left: 40px;">
-    <p>NB! Lingiga saavad liituda kõik sisse loginud kasutajad</p>
+    <script>
+        function copyLink(){
+            // Get the text field
+            var copyText = document.getElementById("link-input");
 
-    <code>{{ url }}</code>
-</div>
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+        }
+    </script>
+</body>
 
 </html>

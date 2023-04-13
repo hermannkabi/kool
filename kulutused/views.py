@@ -32,6 +32,7 @@ def homepage(request):
         return redirect("kulutused:index")
     else:
         return render(request, "kulutused/homepage.html")
+    
 
 
 @login_required
@@ -45,6 +46,29 @@ def choose_group(request):
     }
 
     return render(request, "kulutused/choose-group.html", context)
+
+
+def change_group(request):
+    if request.method == "POST":
+        group_id = request.POST.get("group", None)
+
+        if group_id == None:
+            return redirect("kulutused:homepage")
+        
+        if group_id == "new-group":
+            return redirect("kulutused:create-group")
+
+        try:
+            user_prefs = UserPrefs.objects.filter(user=request.user).get()
+            user_prefs.group_id = group_id
+            user_prefs.save()
+        except:
+            new_prefs = UserPrefs(user=request.user, group_id=group_id)
+            new_prefs.save()
+
+        return redirect("kulutused:dashboard", group_id=group_id)
+        
+
 
 
 @login_required
@@ -64,12 +88,13 @@ def dashboard(request, group_id):
     users = group.members.all()
 
 
-    recent_transactions = Transaction.objects.filter(group_id=group_id).order_by("-date_sent")[:5]
+    recent_transactions = Transaction.objects.filter(group_id=group_id).order_by("-date_sent")[:3]
+
+    groups_containing_user = Group.objects.filter(members__username=request.user.username)
 
     
     # In this context (pun intended), all_users refers to all the user within this group
-    context = {"user":request.user, "all_users":users, "recent":recent_transactions, "group_id":group_id, "group_name":group.group_name}
-
+    context = {"user":request.user, "all_users":users, "recent":recent_transactions, "group_id":group_id, "group_name":group.group_name, "groups":groups_containing_user}
 
     return render(request, "kulutused/index.html", context)
 
@@ -79,9 +104,9 @@ def dashboard(request, group_id):
 def index(request):
 
     # Checks for UserPrefs, if there is no UserPref for the current User, or group_id is null, redirect to group choice
-
     try:
-        if len(UserPrefs.objects.get(user=request.user)) <= 0:
+        if not UserPrefs.objects.get(user=request.user):
+
             return redirect("kulutused:choose-group")
     except:
         # Obviously, there is no data
@@ -116,7 +141,7 @@ def logout(request):
 
     django_logout(request)
 
-    return HttpResponseRedirect(reverse("kulutused:index"))
+    return HttpResponseRedirect(reverse("kulutused:homepage"))
 
 
 @login_required
@@ -214,12 +239,16 @@ def summary(request, group_id):
             labels.append(username.title())
             data.append(amount)
 
+
+    groups_containing_user = Group.objects.filter(members__username=request.user.username)
+
     context = {
         'all_transactions': all_transactions,
         "user_data": sorted_user_data,
         'labels':labels,
         'data':data,
         "group_id":group_id,
+        "groups":groups_containing_user,
     }
     
 
@@ -283,5 +312,7 @@ def create_group(request):
 def share_group(request, group_id):
 
     full_url = request.build_absolute_uri(reverse("kulutused:join", kwargs={'group_id':group_id}))
+    groups_containing_user = Group.objects.filter(members__username=request.user.username)
 
-    return render(request, "kulutused/share.html", {"url":full_url})
+
+    return render(request, "kulutused/share.html", {"url":full_url, "group_id":group_id, "groups":groups_containing_user})

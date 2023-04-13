@@ -14,12 +14,105 @@
 
 </head>
 <body>
-    <div class="title-div-login">
-        <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
-        <p class="subgreeting">Andmed, andmed, andmed!</p>
+    <div class="title-div-login"  style="text-align: end; display: block;">
+        <p class="greeting">Hei, <a href="{% url 'kulutused:dashboard' group_id=group_id%}" style="color: #71ccbe; border-bottom: 3px dotted; cursor: pointer; text-decoration: none;">{{ user.username|title }}</a> &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons icon-button" style="color: red;">logout</i></a><a href="{% url 'kulutused:share-group' group_id=group_id %}"><i class="material-icons icon-button">share</i></a></p>
+        <br>
+        <form id="change-group-form" action="{% url 'kulutused:change_group' %}" method="post">
+            {% csrf_token %}
+            
+            <select name="group" id="group-change" style="height: 40px; padding-inline: 16px;">
+                {% for group in groups %}
+                    <option value="{{ group.id }}" {% if group_id == group.id %} selected {% endif %}>{{group.group_name}}</option>
+                {% endfor %}
+                <option value="new-group">➕ Loo uus grupp</option>
+
+            </select>
+        </form>
     </div>
     
+    <script>
+        document.getElementById("group-change").addEventListener("change", ()=>{
+            document.getElementById("change-group-form").submit();
+        });
+    </script>
+
+
     <div class="table-container">
+        <div class="glass-background" style="padding: 16px; text-align: center; margin: auto; width: 750px;">
+            <p class="column-header">Andmed</p>
+            {% with user_username=user.username %}     
+                {% if user_data|get_item:user_username > 0%}
+                <p class="column-subheader">Oled <span style="font-weight: bold;">{{ user_data|get_item:user_username|floatformat }}</span> euroga <span style="font-weight: bold; color: green;">plussis</span></p>
+                {% elif user_data|get_item:user_username == 0%}
+                <p class="column-subheader">Oled <span style="color: green; font-weight: bold;">täpselt nullis</span></p>
+                {% else %}
+                <p class="column-subheader"><span style="font-weight: bold; color: red;">Võlgned </span> <span style="font-weight: bold;">{{ user_data|get_item:user_username|multiply:-1|floatformat }}</span> eurot</p>
+                {% endif %}
+
+            {% endwith %}
+            <br><br>
+            <div class="table-container" > 
+                <!-- Graph -->
+                <canvas id="owed-amount-graph" style="display: block; max-height: 500px; max-width: 500px; aspect-ratio: 3;"></canvas>
+
+
+                <!-- Table -->
+                <table style="border-collapse: collapse;" id="owed-amount-table">
+                    <thead>
+                        <th>Kasutajanimi</th>
+                        <th>Koguvõlgnevus</th>
+                    </thead>
+                    <tbody>
+                        {% for key, value in user_data.items %}
+                            <tr>
+                                <td>{{key|title}}</td>
+                                <td>{{ value|floatformat:2 }}€</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- All transactions -->
+        <div class="glass-background" style="padding: 16px; text-align: center; margin: auto; width: 750px;">
+            <p class="column-header">Kõik tehingud</p>
+            <br><br>
+            <table style="border-collapse: collapse; margin-left: auto; margin-right: auto;">
+                <thead>
+                    <th>Saatja</th>
+                    <th>Saaja</th>
+                    <th>Summa</th>
+                    <th>Märkused</th>
+                </thead>
+                {% for transaction in all_transactions %}
+                <tr>
+                    <td>{{transaction.from_user.username|title}}</td>
+                    <td>{{transaction.to_user.username|title}}</td>
+                    <td>{{transaction.amount|floatformat:2}}€</td>
+                    {% if transaction.notes|length > 0 %}
+                    <td>{{ transaction.notes }}</td>
+                    {% else %}
+                    <td style="color: grey;">Märkuseid pole</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+        </div>
+
+
+    </div>
+
+
+    <br><br><br>
+
+    
+
+    <br><br><br>
+
+
+    <!-- <div class="table-container">
         <div class="transaction-div">
             <p class="column-header">Andmed</p>
             {% with user_username=user.username %}     
@@ -35,29 +128,24 @@
 
             <p onclick="handleClick('graph')" id="view-as-graph" style="color: lightblue; cursor: pointer; text-decoration: underline;">Vaata graafikuna</p>
             <p onclick="handleClick('table')" hidden id="view-as-table" style="color: lightblue; cursor: pointer; text-decoration: underline;">Vaata tabelina</p>
-
+ -->
 
             <!-- Table -->
-            <table style="border-collapse: collapse;" id="owed-amount-table">
+            <!-- <table style="border-collapse: collapse;" id="owed-amount-table">
                 <thead>
                     <th>Kasutajanimi</th>
                     <th>Koguvõlgnevus</th>
                 </thead>
                 <tbody>
                     {% for key, value in user_data.items %}
-                    <!-- Don't need to display the users that have zero as their amount, only negative and positive -->
-                        {% if value != 0 %}
                         <tr>
                             <td>{{key|title}}</td>
                             <td>{{value}}</td>
                         </tr>
-                        {% endif %}
                     {% endfor%}
                 </tbody>
             </table>
 
-            <!-- Graph -->
-            <canvas id="owed-amount-graph" style="display: none; max-height: 600px; max-width: 600px; aspect-ratio: 2;"></canvas>
 
         </div>
         
@@ -90,7 +178,7 @@
             <p>Hiljutisi tehinguid pole</p>
             {% endif %}
         </div>
-    </div>
+    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 

@@ -13,6 +13,14 @@
 
 </head>
 <body>
+    <div class="topbar" id="navbar">
+        <h1 style="cursor: pointer;" onclick="window.location.href = '#'">Kulutused</h1>
+        <div class="links">
+            <a href="#features">Võimalused</a>
+
+            <a href="#about">Äpist</a>
+        </div>
+    </div>
     <div class="container">
         <div class="title-div">
             <h1 class="title">Jaga kulusid
@@ -24,6 +32,74 @@
             </div>
     
         </div>
+    </div>
+    <div style="height: 200px;"></div>
+
+    <div class="scroll-arrow">
+        <img src="{% static 'kulutused/down-arrow.png' %}" alt="" style="height: 50px;">
+    </div>
+    <div style="height: 500px;"></div>
+    <section id="features">
+        <h1>Võimalused</h1>
+        <div style="height: 100px;"></div>
+
+        <div class="features">
+            <div class="feature">
+                <img src="{% static 'kulutused/world-wide-web.png' %}" alt="">
+                <div>
+                    <h1>Lihtne kasutada</h1>
+                    <p>Loogiliselt ülesehitatud kasutajaliidese kasutamine on ilmne ja mugav</p>
+                </div>
+            </div>
+
+            <div class="feature right">
+                <img src="{% static 'kulutused/people.png' %}" alt="">
+                <div>
+                    <h1>Iga makse omas grupis</h1>
+                    <p>Gruppide süsteem on intuitiivne ja aitab sul rahaasju paremini organiseerida</p>
+                </div>
+            </div>
+
+            <div class="feature">
+                <img src="{% static 'kulutused/share.png' %}" alt="">
+                <div>
+                    <h1>Kutsu igaüks</h1>
+                    <p>Üksinda igav? Lihtsalt jaga grupi linki sõpradega ja saategi omavahel arveid õiendada.</p>
+                </div>
+            </div>
+            
+            <div class="feature right">
+                <img src="{% static 'kulutused/line-chart.png' %}" alt="">
+                <div>
+                    <h1>Andmed, andmed, andmed.</h1>
+                    <p>Saad iga kell näha andmeid oma grupiliikmete kohta, ka graafikuna.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <section id="about">
+        <h1>Äpist</h1>
+        <div style="height: 100px;"></div>
+        <p>Kulutused on kooliprojekt, mis on loodud 2023. aasta aprillis. Autor: Hermann Käbi</p>
+        <br><br>
+        <p>Ikoonide allikad on Flaticon: </p>
+            <li>world-wide-web: Freepik</li>
+            <li>people: SBTS2018</li>
+            <li>share: Freepik</li>
+            <li>line-chart: Gregor Cresnar</li>
+        <br>
+        <p>Teiste ikoonide (logi välja, jaga, jne) autor:</p>
+        <li>Google Fonts</li>
+    </section>
+    <div style="height: 300px;"></div>
+    <div class="bottombar">
+        <br>
+        <h1>Kulutused</h1>
+        <br><br>
+        <p>Hermann Käbi &copy; 2023</p>
+        <br><br>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
@@ -46,7 +122,8 @@
             }, 500);
 
             i ++;
-        }, 5000);
+        }, 3000);
+
     </script>
 </body>
 </html>

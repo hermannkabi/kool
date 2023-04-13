@@ -1,10 +1,105 @@
 @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi&family=Unbounded:wght@500&display=swap');
 
-body{
-    background-color: #0a2647;
+html, body{
+    background-color: #0B2447;
     font-family: "Reem Kufi";
     color: white;
-    overflow-y: hidden;
+    margin: 0;
+    scroll-behavior: smooth;
+    
+}
+
+.topbar{
+    position: fixed;
+    top: 0;
+    background-color: #71ccbe9f;
+    margin: 0;
+    padding: 16px;
+    transition: top 300ms;
+    width: 99%;
+}
+
+.topbar > h1{
+    margin: 0;
+    font-family: "Unbounded";
+    font-size: 20px;
+    display: inline;
+}
+
+.topbar > .links{
+    text-align: right;
+    display: inline;
+    float: right;
+}
+
+.topbar > .links > a{
+    padding: 0 16px;
+}
+
+@keyframes scroll-arrow {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+.scroll-arrow{
+    display: block;
+    bottom: 16px;
+    margin: auto;
+    text-align: center;
+    animation: scroll-arrow 1.2s infinite;
+}
+
+
+.bottombar{
+    text-align: center;
+    position: static;
+    bottom: 0;
+    margin: 0;
+    width: 100%;
+    background-color: #71ccbe9f;
+    overflow: hidden;
+}
+
+.bottombar > h1{
+    margin: 0;
+    font-family: "Unbounded";
+    font-size: 20px;
+    display: inline;
+    padding: 16px;
+}
+
+.bottombar > p {
+    display: inline;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+
+.glass-background{
+    background: rgba(9, 41, 77, 0.959);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(8.5px);
+    border: 1px solid rgba(10, 38, 71, 0.3);
+    margin: auto;
+    width: min-content;
+    text-align: center;
+}
+
+.outlined-div{
+    outline: solid 6px rgba(9, 41, 77, 0.959);
+    border-radius: 16px;
+    margin: auto;
+    text-align: center;
+    background-color: transparent;
 }
 
 #changing-text{
@@ -42,17 +137,25 @@ button{
     margin-right: 24px;
     cursor: pointer;
 
-    transition: transform 50ms linear;
+    transition: transform 50ms linear, opacity 50ms linear;
 }
 
 button:hover{
-    transform: scaleX(99%);
+    opacity: 0.95;
 }
 
 button:active{
     transform: scale(96%) translate(1px, 1px);
 
 }
+
+.icon-button{
+    font-size: 24px;
+    vertical-align: middle;
+    color: white;
+    margin-inline: 4px;
+}
+
 
 .login{
     background-color: transparent;
@@ -69,7 +172,7 @@ button:active{
 
 .greeting{
     font-family: "Unbounded";
-    font-size: 40px;
+    font-size: 24px;
     margin-bottom: 0;
 
 }
@@ -92,23 +195,22 @@ button:active{
 
 .column-subheader{
     margin-top: 0px;
-    font-size: 20px;
+    font-size: 16px;
+    color: #d6d6d6;
 }
 
 .transaction-div{
-    margin-left: 40px;
-}
-
-.recent-transactions-div{
-    margin-right: 40px;
+    margin: 0 40px;
 }
 
 input{
-    height: 32px;
+    height: 50px;
     border-radius: 4px;
     outline: none;
     border: none;
     font-family: "Reem Kufi";
+    font-size: 20px;
+    width: 400px;
 }
 
 textarea{
@@ -116,14 +218,16 @@ textarea{
     outline: none;
     border: none;
     font-family: "Reem Kufi";
+    font-size: 20px;
 }
 
 select{
-    height: 32px;
+    height: 50px;
     border-radius: 4px;
     outline: none;
     border: none;
     font-family: "Reem Kufi";
+    font-size: 20px;
 }
 
 option{
@@ -135,23 +239,89 @@ option{
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-items: center;
 }
 
 td, th {
     border: 1px solid #71ccbe;
     text-align: left;
     padding: 8px;
-  }
+}
   
-  tr:nth-child(even) {
-    background-color: #71ccbe;
-  }
-  
-
-.material-icons{
-    transition: transform 50ms linear;
+tr:nth-child(even) {
+background-color: #71ccbe;
 }
 
-.material-icons:hover{
-    transform: translateX(2px);
+
+a{
+    border-radius: 2px;
+    transition: all 200ms linear;
+    text-decoration: underline;
+    color: lightblue;
+
+}
+
+a:hover{
+    background-color: #add8e67c;
+    text-decoration-color: #add8e67c;
+}
+
+a:visited{
+    color:lightblue;
+}
+
+
+section {
+    padding-top: 150px;
+
+    text-align: center;
+}
+
+section > h1{
+    font-family: "Unbounded";
+    font-size: 100px;
+}
+
+section > p{
+    font-size: 30px;
+    text-align: center;
+    max-width: 400px;
+    display: block;
+    margin: auto;
+}
+
+
+.feature{
+    max-width: 40%;
+    overflow: hidden;
+    margin: 30px auto;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 150px;
+}
+
+.feature h1{
+    font-family: "Unbounded";
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+.feature p{
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.feature > img{
+    max-height: 200px;
+    max-width: 200px;
+    clear: both;
+    border-radius: 4px;
+    margin: 16px;
+}
+
+
+.features > .right{
+    flex-direction: row-reverse;
+
 }

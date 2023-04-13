@@ -8,30 +8,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logi sisse</title>
 
-    <link rel="stylesheet" href="{% static 'kulutused/login.css' %}">
+    <link rel="stylesheet" href="{% static 'kulutused/index.css' %}">
 </head>
 <body>
-    <div class="container">
-        <div class="wrapper">
-            <div class="login-div">
-                <h1>Logi sisse</h1>
-                <form action="{% url 'login' %}" method="post">
-                    {% csrf_token %}
-                    <input class="login-input" type="text" name="username" id="" placeholder="Kasutajanimi" autofocus>
-                    <input class="login-input" type="password" name="password" id="" placeholder="Parool">
-                    {% if form.errors %}
-                    <p style="color: red; margin: 0 34px;">Vale kasutajanimi või parool!</p>
-                    {% endif %}
-                    <button type="submit">Logi sisse</button>
-                    <br>
-                </form>
-            </div>
-            <div class="signup-div">
-                <br>
-                <p>Oled siin uus? <a href="/register">Loo konto</a></p>
-                <br>
-            </div>
-        </div>
+    <div style="height: 100px;"></div>
+
+    <div class="glass-background" style="margin: auto; text-align: center; padding: 16px; width: 400px;">
+        <p class="column-header">Logi sisse</p><br><br>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <input style="max-width: max-content;" class="login-input" type="text" name="username" id="" placeholder="Kasutajanimi" autofocus>
+            <br><br>
+            <input style="max-width: fit-content;" class="login-input" type="password" name="password" id="" placeholder="Parool">
+            {% if form.errors %}
+            <p style="color: red; margin: 0 34px;">Vale kasutajanimi või parool!</p>
+            {% endif %}
+            <br><br>
+            <button type="submit">Logi sisse</button>
+            <br><br><br>
+        </form>
+    </div>
+    <br><br>
+    <div class="outlined-div" style="width: 430px; margin: auto;">
+        <br>
+        <p>Oled siin uus? <a href="/register">Loo konto</a></p>
+        <br>
     </div>
 </body>
 </html>

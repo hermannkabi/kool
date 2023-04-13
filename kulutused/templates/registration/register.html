@@ -9,33 +9,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loo konto</title>
 
-    <link rel="stylesheet" href="{% static 'kulutused/register.css' %}">
-</head>
-<body>
-    <div class="container">
-        <div class="wrapper">
-            <div class="login-div">
-                <h1>Loo konto</h1>
-                <form action="{% url 'kulutused:signup' %}" method="post">
-                    {% csrf_token %}
-                    <input class="login-input" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username"  type="text" name="username" id="" placeholder="Kasutajanimi">
-                    <div style="height: 1px"></div>
-                    <input class="login-input" type="password" name="password1" id="" placeholder="Parool" autocomplete="new-password" required id="id_password1">
-                    <input class="login-input" type="password" name="password2" id="" placeholder="Korda parooli" autocomplete="new-password" required id="id_passwor2">
+    <link rel="stylesheet" href="{% static 'kulutused/index.css' %}">
 
-                    {% if form.errors %}
-                    <p style="color: red; text-align:center; margin: 0 20px;">Veendu, et täitsid kõik väljad õigesti</p>
-                    {% endif %}
-                    <button type="submit" value="Register">Loo konto</button>
-                    <br>
-                </form>
-            </div>
-            <div class="signup-div">
-                <br>
-                <p>Konto olemas? <a href="/accounts/login">Logi sisse</a></p>
-                <br>
-            </div>
-        </div>
+</head>
+<body> 
+    <div style="height: 100px;"></div>
+    <div class="glass-background" style="padding: 24px; text-align: center;">
+        <p class="column-header">Loo konto</p>
+        <br><br>
+        <form action="{% url 'kulutused:signup' %}" method="post">
+            {% csrf_token %}
+            <input class="login-input" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username"  type="text" name="username" id="" placeholder="Kasutajanimi">
+            <br><br><br>
+            <input class="login-input" type="password" name="password1" id="" placeholder="Parool" autocomplete="new-password" required id="id_password1">
+            <br><br>
+        
+            <input class="login-input" type="password" name="password2" id="" placeholder="Korda parooli" autocomplete="new-password" required id="id_passwor2">
+
+            {% if form.errors %}
+            <p style="color: red; text-align:center; margin: 0 20px;">Veendu, et täitsid kõik väljad õigesti</p>
+            {% endif %}
+            <br><br>
+            <button type="submit" value="Register">Loo konto</button>
+            <br><br>
+        </form>
+        
     </div>
+    <br><br>
+    <div class="outlined-div" style="width: 450px;">
+        <br>
+        <p>Konto olemas? <a class="link" href="/accounts/login">Logi sisse</a></p>
+        <br>
+    </div>
+        
+            
+
+       
 </body>
 </html>

@@ -9,6 +9,7 @@ class Transaction(models.Model):
     date_sent = models.DateTimeField('date sent')
     notes = models.CharField(max_length=150, default='')
     group_id = models.PositiveSmallIntegerField("group id", blank=True, null=True)
+    
         
 
     def __str__(self):

@@ -15,9 +15,9 @@
 </head>
 <body>
 
-    <div class="title-div-login">
-        <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
-        <p class="subgreeting">Jätkamiseks vali grupp!</p>
+    <div class="title-div-login"  style="text-align: end; display: block;">
+        <p class="greeting">Hei, <span style="color: white; border-bottom: 3px dotted; text-decoration: none;">{{ user.username|title }}</span> &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons icon-button" style="color: red;">logout</i></a></p>
+        <br>
     </div>
     
 

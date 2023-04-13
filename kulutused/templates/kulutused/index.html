@@ -11,79 +11,81 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-
-<div class="title-div-login">
-    <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
-    <p class="subgreeting"><span style="font-weight: bold;">{{group_name}}</span>  | <a href="{% url 'kulutused:share-group' group_id=group_id%}" style="color: lightblue; text-decoration: none;">jaga linki</a>  ・  <a href="{% url 'kulutused:choose-group'%}" style="color: lightblue; text-decoration: none;">muuda gruppi</a></p>
-</div>
-
-
-
-<div class="table-container">
-    <div class="transaction-div">
-        <p class="column-header">Uus makse</p>
-        <p class="column-subheader">Pane kirja oma võlg</p>
-
-        <form action="{% url 'kulutused:send-transaction' group_id=group_id %}" method="post">            
+<body>
+    
+    <div class="title-div-login"  style="text-align: end; display: block;">
+        <p class="greeting">Hei, <a href="{% url 'kulutused:summary' group_id=group_id%}" style="color: #71ccbe; border-bottom: 3px dotted; cursor: pointer; text-decoration: none;">{{ user.username|title }}</a> &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons icon-button" style="color: red;">logout</i></a><a href="{% url 'kulutused:share-group' group_id=group_id %}"><i class="material-icons icon-button">share</i></a></p>
+        <br>
+        <form id="change-group-form" action="{% url 'kulutused:change_group' %}" method="post">
             {% csrf_token %}
-            <div class="search-user">
-                <select  style="width: 204px; background-color: #71ccbe; color: white;" name="to_name" id="" required>
-                    <option value="" disabled selected>Vali saaja</option>
-                    {% for u in all_users%}
-                        {% if u != user %}
-                            <option  value="{{u.username|title }}">{{u.username|title}}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-            <br>
-        
-            <div class="amount-select" >
-                <input value="{{ amount }}" name="amount" min="0.01" step=".01" style="display: block; width: 200px; height: 48px" type="number" placeholder="Summa" required>
-                <br>
-                <textarea name="notes" placeholder="Märkused makse kohta" style="resize: vertical; height: 100px; width: 200px; display: block;"></textarea>
-                
-                {% if messages %}
-                    {% for message in messages %}
-                    <p style="color:red">{{ message }}</p>
-                    {% endfor %}
-                {%endif%}
-                
-                <button type="submit">Maksa</button>
-            </div>
+            
+            <select name="group" id="group-change" style="height: 40px; padding-inline: 16px;">
+                {% for group in groups %}
+                    <option value="{{ group.id }}" {% if group_id == group.id %} selected {% endif %}>{{group.group_name}}</option>
+                {% endfor %}
+                <option value="new-group">➕ Loo uus grupp</option>
+            </select>
         </form>
     </div>
-    
-    <div class="recent-transactions-div" style="justify-self:end">
-        <p class="column-header">Hiljutised tehingud</p>
-        {% if recent|length > 0 %}
-        <p style="color: lightblue; text-decoration: underline; cursor: pointer;" onclick="window.location.href = 'summary'" class="column-subheader">Vaata kokkuvõtet</p>
-        {% endif %}
-        
-        {% if recent|length > 0%}
-        <table style="border-collapse: collapse;">
-            <thead>
-                <th>Saatja</th>
-                <th>Saaja</th>
-                <th>Summa</th>
-                <th>Märkused</th>
-            </thead>
-            {% for transaction in recent %}
-            <tr>
-                <td>{{transaction.from_user.username|title}}</td>
-                <td>{{transaction.to_user.username|title}}</td>
-                <td>{{transaction.amount}}</td>
-                {% if transaction.notes|length > 0 %}
-                <td>{{ transaction.notes }}</td>
-                {% else %}
-                <td>Märkuseid pole</td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
-        {% else %}
-        <p>Tehinguid ei leitud!</p>
-        {% endif %}
+
+    <div class="glass-background">
+        <div class="transaction-div" style="text-align: center;">
+            <p class="column-header">Uus makse</p>
+            <br><br>
+            <form action="{% url 'kulutused:send-transaction' group_id=group_id %}" method="post">            
+                {% csrf_token %}
+                <div class="search-user">
+                    <select  style="width: 304px; background-color: #71ccbe; color: white;" name="to_name" id="" required>
+                        <option value="" disabled selected>Vali saaja</option>
+                        {% for u in all_users%}
+                            {% if u != user %}
+                                <option  value="{{u.username|title }}">{{u.username|title}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+            
+                <div class="amount-select" style="margin-inline: auto;">
+                    <input value="{{ amount }}" name="amount" min="0.01" step=".01" style="width: 300px; height: 48px" type="number" placeholder="Summa" required><br>
+                    <br>
+                    <textarea name="notes" placeholder="Märkused makse kohta" style="resize: vertical; height: 100px; width: 300px;"></textarea><br><br>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                        <p style="color:red">{{ message }}</p>
+                        {% endfor %}
+                    {%endif%}
+                    
+                    <button type="submit">Maksa</button>
+                    <br>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+
+    <br><br>
+
+    {% for transaction in recent %}
+        <p style="text-align: center;"><span style="color: #d6d6d6">{{transaction.from_user.username|title}}</span> &nbsp; → &nbsp; <span>{{transaction.to_user.username|title}}</span> &emsp; <span style="color: #71ccbe; font-family: 'Unbounded'; font-size: 16px;">{{transaction.amount|floatformat:2}} €</span></p>
+    {% endfor %}
+
+    <script>
+        document.getElementById("group-change").addEventListener("change", ()=>{
+            document.getElementById("change-group-form").submit();
+        });
+
+
+
+        // This code is necessary, because when the user chooses 'Loo uus grupp', and come back, the select has to be updated
+        (function () {
+            window.onpageshow = function(event) {
+                if (event.persisted) {
+                    window.location.reload(true);
+                }
+            };
+        })();
+    </script>
+</body>
+
 </html>

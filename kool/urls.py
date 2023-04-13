@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from kulutused import urls
 admin.site.site_header = 'Kulutused administratsioon'
 
 

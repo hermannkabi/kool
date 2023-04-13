@@ -12,17 +12,23 @@
 </head>
 
 
-<div class="title-div-login">
-    <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
-    <p class="subgreeting">Tahad liituda?</p>
-</div>
-
-<div style="margin-left: 40px;">
-    <p>Kas tahad liituda grupiga <span style="font-weight: bold;">{{group_name}}</span>?</p>
-    <form action=" {% url 'kulutused:join' group_id=group_id %}" method="post">
-        {% csrf_token %}
-        <button>Liitu</button>
-    </form>
-</div>
+<body>
+    <div class="title-div-login"  style="text-align: end; display: block;">
+        <p class="greeting">Hei, <span style="color: white; border-bottom: 3px dotted; text-decoration: none;">{{ user.username|title }}</span> &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons icon-button" style="color: red;">logout</i></a></p>
+        <br>
+    </div>
+ 
+    
+    <div class="glass-background" style="padding: 16px; width: max-content; margin: auto;">
+        <div class="transaction-div">
+            <p class="column-header">{{group_name}}</p>
+            <p>Kas tahad selle grupiga liituda?</p>
+            <form action=" {% url 'kulutused:join' group_id=group_id %}" method="post">
+                {% csrf_token %}
+                <button>Liitu</button>
+            </form>
+        </div>
+    </div>
+</body>
 
 </html>

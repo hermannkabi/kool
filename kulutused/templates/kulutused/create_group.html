@@ -14,23 +14,28 @@
 
 </head>
 <body>
-    <div class="title-div-login">
-        <p class="greeting">Hei, {{ user.username|title }}! &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons" style="color: red; font-size: 30px;">logout</i></a></p>
-        <p class="subgreeting">Loo uus grupp!</p>
+    <div class="title-div-login"  style="text-align: end; display: block;">
+        <p class="greeting">Hei, <span style="color: white; border-bottom: 3px dotted; text-decoration: none;">{{ user.username|title }}</span> &nbsp;<a href="{% url 'kulutused:logout' %}"><i class="material-icons icon-button" style="color: red;">logout</i></a></p>
+        <br>
     </div>
 
-    <form action="{% url 'kulutused:create-group' %}" method="post">
-        {% csrf_token %}
-        <input name="group_name" type="text" placeholder="Grupi nimi" maxlength="150" required>
-        <br>
-        <textarea name="description" placeholder="Kirjeldus (valikuline)"></textarea>
-        {% if messages %}
-            {% for message in messages %}
-                <p style="color:red">{{ message }}</p>
-            {% endfor %}
-        {%endif%}
 
-        <button type="submit">Loo uus grupp</button>
-    </form>
+    <div class="glass-background">
+        <p class="column-header">Loo uus grupp</p><br><br>
+        <form action="{% url 'kulutused:create-group' %}" method="post" style="margin: 16px;">
+            {% csrf_token %}
+            <input name="group_name" type="text" placeholder="Grupi nimi" maxlength="150" required>
+            <br>
+            <textarea style="height: 150px;" name="description" placeholder="Kirjeldus (valikuline)"></textarea>
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color:red">{{ message }}</p>
+                {% endfor %}
+            {%endif%}
+            <br>
+            <button type="submit">Loo uus grupp</button>
+        </form>
+    </div>
+    
 </body>
 </html>
